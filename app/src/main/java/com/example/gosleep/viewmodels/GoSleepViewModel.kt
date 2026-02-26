@@ -2,17 +2,21 @@ package com.example.gosleep.viewmodels
 import com.example.gosleep.models.Event
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.gosleep.data.GoSleepDao
+import com.example.gosleep.data.SensorRepository
+import com.example.gosleep.models.CalendarRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.collections.emptyList
-import com.example.gosleep.models.CalendarRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDateTime
 
 class GoSleepViewModel(
-    private val calendarRepository: CalendarRepository
+    private val calendarRepository: CalendarRepository,
+    private val sensorRepository: SensorRepository,
+    private val dao: GoSleepDao
 ): ViewModel() {
 
     private val _events = MutableStateFlow<List<Event>>(emptyList())

@@ -7,15 +7,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.activity.viewModels
 import com.example.gosleep.ui.theme.GoSleepTheme
 import com.example.gosleep.ui.GoSleepScreen
 import com.example.gosleep.viewmodels.GoSleepViewModel
 import com.example.gosleep.viewmodels.GoSleepViewModelFactory
 import com.example.gosleep.models.CalendarRepository
 import kotlin.getValue
+import androidx.room.Room
+import com.example.gosleep.data.GoSleepDatabase
+import com.example.gosleep.data.SensorRepository
+import android.hardware.SensorManager
+import androidx.lifecycle.ViewModelProvider
 
 
 /**
@@ -25,10 +30,7 @@ import kotlin.getValue
  */
 class MainActivity : ComponentActivity() {
 
-    /** Initialization of the ViewModel using the Manual DI container. */
-    private val viewModel: GoSleepViewModel by viewModels {
-        GoSleepViewModelFactory(CalendarRepository(applicationContext))
-    }
+    private lateinit var viewModel: GoSleepViewModel
 
     /** Launcher to handle location permission requests. */
     private val requestPermissionLauncher = registerForActivityResult(
@@ -44,6 +46,29 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Build database safely
+        val db = Room.databaseBuilder(
+            applicationContext,
+            GoSleepDatabase::class.java,
+            "gosleep-db"
+        ).build()
+
+        val dao = db.goSleepDao()
+
+        // Get sensor manager safely
+        val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        val sensorRepository = SensorRepository(sensorManager)
+
+        // Initialize ViewModel properly
+        viewModel = ViewModelProvider(
+            this,
+            GoSleepViewModelFactory(
+                calendarRepository = CalendarRepository(applicationContext),
+                sensorRepository = sensorRepository,
+                dao = dao
+            )
+        )[GoSleepViewModel::class.java]
 
         requestPermissionLauncher.launch(Manifest.permission.READ_CALENDAR)
 
