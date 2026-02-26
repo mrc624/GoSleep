@@ -15,7 +15,6 @@ import com.example.gosleep.ui.GoSleepScreen
 import com.example.gosleep.viewmodels.GoSleepViewModel
 import com.example.gosleep.viewmodels.GoSleepViewModelFactory
 import android.provider.CalendarContract
-import com.example.gosleep.models.GoSleepEvent
 import kotlin.getValue
 
 
@@ -28,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
     /** Initialization of the ViewModel using the Manual DI container. */
     private val viewModel: GoSleepViewModel by viewModels {
-        GoSleep.ViewModelFactory((application as GoSleepApp).container.calendar)
+        GoSleepViewModelFactory((application as GoSleepApp).container.calendar)
     }
 
     /** Launcher to handle location permission requests. */
@@ -66,42 +65,8 @@ class MainActivity : ComponentActivity() {
      * Reads upcoming calendar events and sends them to ViewModel
      */
     private fun fetchCalendarEvents() {
-        try {
-            val projection = arrayOf(
-                CalendarContract.Events.TITLE,
-                CalendarContract.Events.DTSTART,
-                CalendarContract.Events.DTEND
-            )
-
-            val cursor = contentResolver.query(
-                CalendarContract.Events.CONTENT_URI,
-                projection,
-                null,
-                null,
-                null
-            )
-
-            val events = mutableListOf<GoSleepEvent>()
-
-            cursor?.use {
-                while (it.moveToNext()) {
-                    val title = it.getString(0)
-                    val start = it.getLong(1)
-                    val end = it.getLong(2)
-
-                    events.add(
-                        GoSleepEvent(
-                            title = title,
-                            startTime = start,
-                            endTime = end
-                        )
-                    )
-                }
-            }
-            Log.d("GoSleep", "Fetched ${events.size} calendar events")
-            viewModel.updateEvents(events)
-        } catch (e: SecurityException) {
-            Log.e("GoSleep", "Calendar permission error: ${e.message}")
+        try{
+            viewModel.fetchCalendarEvents()
         }
     }
 }
