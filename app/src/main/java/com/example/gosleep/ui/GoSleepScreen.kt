@@ -1,4 +1,11 @@
 package com.example.gosleep.ui
 
-class GoSleepScreen {
+import com.example.gosleep.viewmodels.GoSleepViewModel
+
+class GoSleepScreen(
+    viewModel: GoSleepViewModel,
+    onRefresh: () -> Unit
+)
+{
+
 }

@@ -14,7 +14,7 @@ import com.example.gosleep.ui.theme.GoSleepTheme
 import com.example.gosleep.ui.GoSleepScreen
 import com.example.gosleep.viewmodels.GoSleepViewModel
 import com.example.gosleep.viewmodels.GoSleepViewModelFactory
-import android.provider.CalendarContract
+import com.example.gosleep.models.Repository
 import kotlin.getValue
 
 
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
     /** Initialization of the ViewModel using the Manual DI container. */
     private val viewModel: GoSleepViewModel by viewModels {
-        GoSleepViewModelFactory((application as GoSleepApp).container.calendar)
+        GoSleepViewModelFactory(Repository(applicationContext))
     }
 
     /** Launcher to handle location permission requests. */
@@ -65,8 +65,6 @@ class MainActivity : ComponentActivity() {
      * Reads upcoming calendar events and sends them to ViewModel
      */
     private fun fetchCalendarEvents() {
-        try{
-            viewModel.fetchCalendarEvents()
-        }
+        viewModel.fetchCalendar()
     }
 }
