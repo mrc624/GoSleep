@@ -28,47 +28,32 @@ enum class TopScreen(val displayName: String) {
 }
 
 @Composable
-fun NavigationBarLayout(){
+fun NavigationBarLayout(modifier: Modifier = Modifier){
     var currentScreen by remember { mutableStateOf(TopScreen.Dashboard) }
 
-    Column(modifier = Modifier.fillMaxSize())
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    )
     {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        )
-        {
-            TopScreen.entries.forEach { screen ->
-                FilterChip(
-                    selected = currentScreen == screen,
-                    onClick = { currentScreen = screen },
-                    label = {
-                        Text(
-                            text = screen.displayName,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.labelLarge,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                        )
-                    },
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-    }
-
-    Divider()
-
-    // 🔹 Screen Content
-    Box(modifier = Modifier.fillMaxSize()) {
-        when (currentScreen) {
-            TopScreen.Dashboard -> Dashboard()
-            TopScreen.Context_Logic -> Context_Logic()
-            TopScreen.Privacy_By_Design -> Privacy_By_Design()
-            TopScreen.Settings -> Settings()
+        TopScreen.entries.forEach { screen ->
+            FilterChip(
+                selected = currentScreen == screen,
+                onClick = { currentScreen = screen },
+                label = {
+                    Text(
+                        text = screen.displayName,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                },
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }
