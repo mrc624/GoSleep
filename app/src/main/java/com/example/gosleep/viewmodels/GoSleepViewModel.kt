@@ -107,4 +107,14 @@ class GoSleepViewModel(
         return 8.0f
     }
 
+    fun submitReadyTime(time: Float)
+    {
+
+    }
+
+    fun getReadyTime(): Float
+    {
+        return 1.0f
+    }
+
 }

@@ -51,6 +51,8 @@ fun Settings(viewModel: GoSleepViewModel, modifier: Modifier)
         DisplaySlider(viewModel = viewModel, modifier = modifier)
 
         DisplaySleepHours(viewModel = viewModel, modifier = modifier)
+
+        DisplayReadyTime(viewModel = viewModel, modifier = modifier)
     }
 }
 
@@ -94,7 +96,7 @@ fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
     )
     {
         Text(
-            text = "Preferred Sleep Time"
+            text = "Time to Get Ready"
         )
 
         Row(
@@ -126,6 +128,59 @@ fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
                     {
                         viewModel.submitPrefSleepTime(time)
                         sleepTimeText = viewModel.getPrefSleepTime().toString()
+                    }
+                }
+            ) {
+                Text("Submit")
+            }
+        }
+    }
+}
+
+@Composable
+fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
+{
+    var readyTimeText by remember { mutableStateOf(viewModel.getReadyTime().toString()) }
+
+    Column (
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(15.dp)
+    )
+    {
+        Text(
+            text = "Preferred Sleep Time"
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        )
+        {
+            TextField(
+                value = readyTimeText,
+                onValueChange =  {newText ->
+                    readyTimeText = newText
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                    fontSize = 18.sp
+                ),
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(75.dp),
+            )
+
+            Button(
+                onClick = {
+                    val time = readyTimeText.toFloatOrNull()
+                    if (time != null)
+                    {
+                        viewModel.submitReadyTime(time)
+                        readyTimeText = viewModel.getReadyTime().toString()
                     }
                 }
             ) {
