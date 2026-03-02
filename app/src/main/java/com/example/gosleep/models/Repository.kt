@@ -1,6 +1,7 @@
 package com.example.gosleep.models
 import android.content.Context
 import android.provider.CalendarContract
+import android.util.Log
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -60,6 +61,16 @@ class Repository (
                 events.add(Event(name, startTime, endTime))
             }
         }
+
+        /*cursor?.use {
+            Log.d("CalendarDebug", "Total events: ${it.count}")
+            while (it.moveToNext()) {
+                val title = it.getString(0)
+                val start = it.getLong(1)
+                val end = it.getLong(2)
+                Log.d("CalendarDebug", "Event: $title, start=$start, end=$end")
+            }
+        }*/
 
         return events
     }

@@ -28,4 +28,9 @@ class GoSleepViewModel(
         }
     }
 
+    fun getNextEvent(): Event?{
+        fetchCalendar()
+        return _events.value.firstOrNull()
+    }
+
 }

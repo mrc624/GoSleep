@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.gosleep.ui.components.Context_Logic
 import com.example.gosleep.ui.components.Dashboard
 import com.example.gosleep.ui.components.Privacy_By_Design
@@ -31,12 +33,14 @@ fun GoSleepScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
 
+        val modifier: Modifier = Modifier.padding(12.dp)
+
         when (screen)
         {
-            TopScreen.Dashboard -> Dashboard()
-            TopScreen.Context_Logic -> Context_Logic()
-            TopScreen.Privacy_By_Design -> Privacy_By_Design()
-            TopScreen.Settings -> Settings()
+            TopScreen.Dashboard -> Dashboard(viewModel.getNextEvent(), modifier)
+            TopScreen.Context_Logic -> Context_Logic(modifier)
+            TopScreen.Privacy_By_Design -> Privacy_By_Design(modifier)
+            TopScreen.Settings -> Settings(modifier)
         }
 
         screen = navigationBarLayout(
