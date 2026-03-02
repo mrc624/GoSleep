@@ -87,4 +87,24 @@ class GoSleepViewModel(
         return nextSixAM
     }
 
+    fun toggleNotifications(state: Boolean)
+    {
+
+    }
+
+    fun getNotifications(): Boolean
+    {
+        return true
+    }
+
+    fun submitPrefSleepTime(time: Float)
+    {
+
+    }
+
+    fun getPrefSleepTime(): Float
+    {
+        return 8.0f
+    }
+
 }
