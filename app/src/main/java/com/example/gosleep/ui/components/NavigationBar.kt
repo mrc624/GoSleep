@@ -28,16 +28,14 @@ enum class TopScreen(val displayName: String) {
 }
 
 @Composable
-fun NavigationBarLayout(modifier: Modifier = Modifier){
+fun navigationBarLayout(modifier: Modifier = Modifier): TopScreen {
     var currentScreen by remember { mutableStateOf(TopScreen.Dashboard) }
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier
+            .padding(horizontal = 16.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
-    )
-    {
+    ) {
         TopScreen.entries.forEach { screen ->
             FilterChip(
                 selected = currentScreen == screen,
@@ -56,4 +54,6 @@ fun NavigationBarLayout(modifier: Modifier = Modifier){
             )
         }
     }
+
+    return currentScreen
 }

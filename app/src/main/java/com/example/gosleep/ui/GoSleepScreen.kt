@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.gosleep.viewmodels.GoSleepViewModel
-import com.example.gosleep.ui.components.NavigationBarLayout
+import com.example.gosleep.ui.components.navigationBarLayout
+import com.example.gosleep.ui.components.TopScreen
 
 @Composable
 fun GoSleepScreen(
@@ -19,12 +21,9 @@ fun GoSleepScreen(
 {
     Box(modifier = Modifier.fillMaxSize()) {
 
-        Column(modifier = Modifier.fillMaxSize()) {
-
-        }
-
-        NavigationBarLayout(
+        val screen: TopScreen = navigationBarLayout(
             modifier = Modifier
+                .fillMaxWidth()
                 .align(Alignment.BottomCenter)
         )
     }
