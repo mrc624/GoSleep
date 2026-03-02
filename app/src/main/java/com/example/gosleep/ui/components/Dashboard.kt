@@ -15,9 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.gosleep.models.Event
 import com.example.gosleep.ui.theme.PurpleGrey80
+import java.util.Locale
 
 @Composable
-fun Dashboard(nextEvent: Event?, modifier: Modifier = Modifier) {
+fun Dashboard(nextEvent: Event?, firstMorningEvent: Event?, sleepHours:Float, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -32,6 +33,8 @@ fun Dashboard(nextEvent: Event?, modifier: Modifier = Modifier) {
         )
 
         DisplayNextEvent(nextEvent, modifier)
+
+        DisplayFirstMorningEvent(firstMorningEvent, sleepHours, modifier)
 
     }
 }
@@ -64,6 +67,54 @@ fun DisplayNextEvent(event: Event?, modifier: Modifier)
 
             Text(
                 text = "End Time: " + event.endTime,
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+            )
+        }
+        else
+        {
+            Text(
+                text = "No event found",
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+
+@Composable
+fun DisplayFirstMorningEvent(event: Event?, sleepHours: Float, modifier: Modifier)
+{
+    Column(modifier = modifier
+        .background(color=PurpleGrey80, shape = RoundedCornerShape(16.dp))
+        .fillMaxWidth()
+        .padding(6.dp)
+    )
+    {
+        Text(
+            text = "Your Next Morning Event",
+            style = androidx.compose.material3.MaterialTheme.typography.headlineSmall
+        )
+
+        if (event != null)
+        {
+            Text(
+                text = "Event Name: " + event.name,
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+            )
+
+            Text(
+                text = "Start Time: " + event.startTime,
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+            )
+
+            Text(
+                text = "End Time: " + event.endTime,
+                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+            )
+
+            val message = String.format(Locale.US, "If you went to sleep now you'd get: %.1f hours", sleepHours)
+
+            Text(
+                text = message,
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
         }

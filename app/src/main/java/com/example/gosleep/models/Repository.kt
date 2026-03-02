@@ -62,16 +62,6 @@ class Repository (
             }
         }
 
-        /*cursor?.use {
-            Log.d("CalendarDebug", "Total events: ${it.count}")
-            while (it.moveToNext()) {
-                val title = it.getString(0)
-                val start = it.getLong(1)
-                val end = it.getLong(2)
-                Log.d("CalendarDebug", "Event: $title, start=$start, end=$end")
-            }
-        }*/
-
         return events
     }
 }
