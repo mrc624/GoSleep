@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 enum class TopScreen(val displayName: String) {
-    Dashboard("Dashboard"),
-    Context_Logic("Context Logic"),
-    Privacy_By_Design("Privacy By Design"),
+    Dashboard("Home"),
+    Context_Logic("Logic"),
+    Privacy_By_Design("Privacy"),
     Settings("Settings")
 }
 
