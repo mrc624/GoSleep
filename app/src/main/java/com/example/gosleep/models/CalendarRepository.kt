@@ -1,14 +1,11 @@
 package com.example.gosleep.models
 import android.content.Context
 import android.provider.CalendarContract
-import android.util.Log
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.Calendar
 
-class Repository (
+class CalendarRepository (
     private val context: Context
 ){
 

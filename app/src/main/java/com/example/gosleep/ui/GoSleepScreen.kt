@@ -36,21 +36,9 @@ fun GoSleepScreen(
 
         val modifier: Modifier = Modifier.padding(12.dp)
 
-        val now = LocalDateTime.now()
-
-        var nextSixAM = now
-            .withHour(6)
-            .withMinute(0)
-            .withSecond(0)
-            .withNano(0)
-
-        while (!nextSixAM.isAfter(now)) {
-            nextSixAM = nextSixAM.plusDays(1)
-        }
-
         when (screen)
         {
-            TopScreen.Dashboard -> Dashboard(nextEvent = viewModel.getNextEvent(), firstMorningEvent = viewModel.getFirstMorningEvent(nextSixAM), sleepHours = viewModel.getSleepHours(viewModel.getFirstMorningEvent(nextSixAM)), modifier = modifier)
+            TopScreen.Dashboard -> Dashboard(viewModel = viewModel, modifier = modifier)
             TopScreen.Context_Logic -> Context_Logic(modifier)
             TopScreen.Privacy_By_Design -> Privacy_By_Design(modifier)
             TopScreen.Settings -> Settings(modifier)

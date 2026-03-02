@@ -14,7 +14,7 @@ import com.example.gosleep.ui.theme.GoSleepTheme
 import com.example.gosleep.ui.GoSleepScreen
 import com.example.gosleep.viewmodels.GoSleepViewModel
 import com.example.gosleep.viewmodels.GoSleepViewModelFactory
-import com.example.gosleep.models.Repository
+import com.example.gosleep.models.CalendarRepository
 import kotlin.getValue
 
 
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
     /** Initialization of the ViewModel using the Manual DI container. */
     private val viewModel: GoSleepViewModel by viewModels {
-        GoSleepViewModelFactory(Repository(applicationContext))
+        GoSleepViewModelFactory(CalendarRepository(applicationContext))
     }
 
     /** Launcher to handle location permission requests. */

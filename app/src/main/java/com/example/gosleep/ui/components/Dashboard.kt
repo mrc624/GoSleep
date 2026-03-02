@@ -15,10 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.gosleep.models.Event
 import com.example.gosleep.ui.theme.PurpleGrey80
+import com.example.gosleep.viewmodels.GoSleepViewModel
 import java.util.Locale
 
 @Composable
-fun Dashboard(nextEvent: Event?, firstMorningEvent: Event?, sleepHours:Float, modifier: Modifier = Modifier) {
+fun Dashboard(viewModel: GoSleepViewModel, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -32,9 +33,11 @@ fun Dashboard(nextEvent: Event?, firstMorningEvent: Event?, sleepHours:Float, mo
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
         )
 
-        DisplayNextEvent(nextEvent, modifier)
+        DisplayNextEvent(viewModel.getNextEvent(), modifier)
 
-        DisplayFirstMorningEvent(firstMorningEvent, sleepHours, modifier)
+        val firstMorningEvent = viewModel.getFirstMorningEvent(viewModel.getMorningStart())
+
+        DisplayFirstMorningEvent(firstMorningEvent, viewModel.getSleepHours(firstMorningEvent), modifier)
 
     }
 }
@@ -73,7 +76,7 @@ fun DisplayNextEvent(event: Event?, modifier: Modifier)
         else
         {
             Text(
-                text = "No event found",
+                text = "No events for the next 48 hours!",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
         }
@@ -121,7 +124,7 @@ fun DisplayFirstMorningEvent(event: Event?, sleepHours: Float, modifier: Modifie
         else
         {
             Text(
-                text = "No event found",
+                text = "No events tomorrow morning! Sleep in!",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
             )
         }

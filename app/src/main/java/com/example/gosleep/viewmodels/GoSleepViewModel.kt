@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.collections.emptyList
-import com.example.gosleep.models.Repository
+import com.example.gosleep.models.CalendarRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDateTime
 
 class GoSleepViewModel(
-    private val repository: Repository
+    private val calendarRepository: CalendarRepository
 ): ViewModel() {
 
     private val _events = MutableStateFlow<List<Event>>(emptyList())
@@ -24,7 +24,7 @@ class GoSleepViewModel(
     fun fetchCalendar(){
         viewModelScope.launch (Dispatchers.IO){
             _isLoading.value = true
-            val nextEvents = repository.getEvents(48)
+            val nextEvents = calendarRepository.getEvents(48)
             _events.value = nextEvents
             _isLoading.value = false
         }
@@ -68,6 +68,23 @@ class GoSleepViewModel(
             }
         }
         return 0.0f
+    }
+
+    fun getMorningStart(): LocalDateTime
+    {
+        val now = LocalDateTime.now()
+
+        var nextSixAM = now
+            .withHour(6)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+
+        while (!nextSixAM.isAfter(now)) {
+            nextSixAM = nextSixAM.plusDays(1)
+        }
+
+        return nextSixAM
     }
 
 }
