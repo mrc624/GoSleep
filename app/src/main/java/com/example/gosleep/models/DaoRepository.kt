@@ -41,11 +41,23 @@ class DaoRepository(private val dao: GoSleepDao) {
         }
     }
 
+    fun getNotifications(): Boolean? {
+        return dao.getNotifications()
+    }
+
     suspend fun updateSleepHours(hours: Float) {
         dao.updateSleepHours(hours)
     }
 
     suspend fun updateTimeGetReady(hours: Float) {
         dao.updateTimeGetReady(hours)
+    }
+
+    suspend fun updateOnPhone(time: Long) {
+        dao.updateOnPhone(time)
+    }
+
+    fun updateNotifications(notifications: Boolean) {
+        dao.updateNotifications(notifications)
     }
 }

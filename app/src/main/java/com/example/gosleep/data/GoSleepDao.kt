@@ -28,6 +28,13 @@ interface GoSleepDao {
 
     @Query("SELECT timeGetReady FROM goSleep_table WHERE id = 1")
     fun getTimeGetReady(): Float?
+
+    @Query("SELECT notifications FROM goSleep_table WHERE id = 1")
+    fun getNotifications(): Boolean?
+
+    @Query("SELECT onPhone FROM goSleep_table WHERE id = 1")
+    suspend fun getOnPhone(): Long?
+
     /**
      * Inserts or updates the user's sleep configuration.
      *
@@ -49,8 +56,6 @@ interface GoSleepDao {
     @Query("UPDATE goSleep_table SET onPhone = :time WHERE id = 1")
     suspend fun updateOnPhone(time: Long)
 
-    @Query("SELECT onPhone FROM goSleep_table WHERE id = 1")
-    suspend fun getOnPhone(): Long?
-
-
+    @Query("UPDATE goSleep_table SET notifications = :notifications")
+    fun updateNotifications(notifications: Boolean)
 }
