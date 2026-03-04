@@ -17,7 +17,8 @@ class NotificationWorker(
     workerParams: WorkerParameters
 ) : CoroutineWorker(appContext, workerParams) {
 
-    private val calendarRepository = Repositories.calendarRepository
+
+    private val calendarRepository = CalendarRepository(appContext)
     private val sensorRepository = Repositories.sensorRepository
 
     override suspend fun doWork(): Result {

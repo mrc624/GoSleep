@@ -5,5 +5,4 @@ import com.example.gosleep.models.SensorRepository
 
 object Repositories {
     lateinit var sensorRepository: SensorRepository
-    lateinit var calendarRepository: CalendarRepository
 }
