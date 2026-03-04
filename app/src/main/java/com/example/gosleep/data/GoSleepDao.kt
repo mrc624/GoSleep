@@ -49,5 +49,8 @@ interface GoSleepDao {
     @Query("UPDATE goSleep_table SET onPhone = :time")
     suspend fun updateOnPhone(time: Long)
 
+    @Query("SELECT onPhone FROM goSleep_table WHERE id = 1")
+    suspend fun getOnPhone(): Long?
+
 
 }

@@ -6,6 +6,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
 import com.example.gosleep.data.GoSleepDao
+import com.example.gosleep.data.Repositories
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
@@ -13,12 +14,10 @@ import kotlin.math.sqrt
 
 
 class SensorRepository(
-    private val sensorManager: SensorManager,
-    private val dao: GoSleepDao
+    private val sensorManager: SensorManager
 ) {
-    suspend fun updateOnPhone(time: Long) {
-        dao.updateOnPhone(time)
-    }
+
+    private val AWAKE_THRESHOLD_MILLIS = 15 * 60 * 1000
 
     fun detectPhoneUsage() = callbackFlow<Long> {
         var lastEmitTime = 0L
@@ -72,7 +71,7 @@ class SensorRepository(
                     lastEmitTime = now
 
                     this@callbackFlow.launch {
-                        updateOnPhone(lastEmitTime)
+                        Repositories.daoRepository.updateOnPhone(lastEmitTime)
                     }
 
                 }
@@ -97,8 +96,17 @@ class SensorRepository(
         awaitClose { sensorManager.unregisterListener(listener) }
     }
 
-    fun isUserAwake(): Boolean
+    suspend fun isUserAwake(): Boolean
     {
-        return true
+        val phoneTime = Repositories.daoRepository.getOnPhone()
+
+        if (phoneTime != null)
+        {
+            return System.currentTimeMillis() <= phoneTime + AWAKE_THRESHOLD_MILLIS
+        }
+        else
+        {
+            return true // notify the user when in doubt
+        }
     }
 }

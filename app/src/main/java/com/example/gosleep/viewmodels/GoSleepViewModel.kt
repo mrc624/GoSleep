@@ -15,6 +15,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.gosleep.data.Repositories
+import com.example.gosleep.models.DaoRepository
 import com.example.gosleep.models.NotificationWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit
 class GoSleepViewModel(
     private val calendarRepository: CalendarRepository,
     private val sensorRepository: SensorRepository,
-    private val dao: GoSleepDao,
+    private val daoRepository: DaoRepository,
     private val context: Context
 ): ViewModel() {
 
@@ -40,6 +41,7 @@ class GoSleepViewModel(
 
     init {
         Repositories.sensorRepository = sensorRepository
+        Repositories.daoRepository = daoRepository
         fetchCalendar()
         scheduleEventNotifications()
     }

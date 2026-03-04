@@ -21,6 +21,7 @@ import com.example.gosleep.data.GoSleepDatabase
 import com.example.gosleep.models.SensorRepository
 import android.hardware.SensorManager
 import androidx.lifecycle.ViewModelProvider
+import com.example.gosleep.models.DaoRepository
 
 
 /**
@@ -58,15 +59,16 @@ class MainActivity : ComponentActivity() {
 
         // Get sensor manager safely
         val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        val sensorRepository = SensorRepository(sensorManager, dao)
+        val sensorRepository = SensorRepository(sensorManager)
+        val daoRepository = DaoRepository(dao)
 
         // Initialize ViewModel properly
         viewModel = ViewModelProvider(
             this,
             GoSleepViewModelFactory(
-                calendarRepository = CalendarRepository(applicationContext, dao),
+                calendarRepository = CalendarRepository(applicationContext),
                 sensorRepository = sensorRepository,
-                dao = dao,
+                daoRepository = daoRepository,
                 applicationContext
             )
         )[GoSleepViewModel::class.java]
