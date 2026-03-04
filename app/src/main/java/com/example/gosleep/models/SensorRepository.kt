@@ -5,14 +5,22 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
+import com.example.gosleep.data.GoSleepDao
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import kotlin.math.sqrt
 
+
 class SensorRepository(
-    private val sensorManager: SensorManager
+    private val sensorManager: SensorManager,
+    private val dao: GoSleepDao
 ) {
-    fun detectPhoneUsage() = callbackFlow {
+    suspend fun updateOnPhone(time: Long) {
+        dao.updateOnPhone(time)
+    }
+
+    fun detectPhoneUsage() = callbackFlow<Long> {
         var lastEmitTime = 0L
 
         val accelerometer =
@@ -21,7 +29,7 @@ class SensorRepository(
         val gyroscope =
             sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
 
-        // 🚨 If either sensor is missing, close flow safely
+        // If either sensor is missing, close flow safely
         if (accelerometer == null || gyroscope == null) {
             close()
             Log.d("GoSleep: SensorRepository", "Accelerometer or Gyroscope not found")
@@ -61,13 +69,15 @@ class SensorRepository(
 
                 if (accelTriggered && gyroTriggered) {
                     val now = System.currentTimeMillis()
+                    lastEmitTime = now
 
-                    if (now - lastEmitTime > 60000) {
-                        trySend(now)
-                        lastEmitTime = now
+                    this@callbackFlow.launch {
+                        updateOnPhone(lastEmitTime)
                     }
+
                 }
             }
+
 
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
         }

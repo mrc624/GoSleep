@@ -2,6 +2,7 @@ package com.example.gosleep.data
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 /**
  * This interface contains the data-access object implementation.
@@ -22,6 +23,11 @@ interface GoSleepDao {
     @Query("SELECT * FROM goSleep_table WHERE id = 1")
     fun getRecordFlow(): Flow<GoSleepRecord?>
 
+    @Query("SELECT sleepHours FROM goSleep_table WHERE id = 1")
+    suspend fun getSleepHours(): Float?
+
+    @Query("SELECT timeGetReady FROM goSleep_table WHERE id = 1")
+    suspend fun getTimeGetReady(): Float?
     /**
      * Inserts or updates the user's sleep configuration.
      *
@@ -30,4 +36,18 @@ interface GoSleepDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdate(record: GoSleepRecord)
+
+    @Update
+    suspend fun updateRecord(record: GoSleepRecord)
+
+    @Query("UPDATE goSleep_table SET sleepHours = :hours")
+    suspend fun updateSleepHours(hours: Float)
+
+    @Query("UPDATE goSleep_table SET timeGetReady = :hours")
+    suspend fun updateTimeGetReady(hours: Float)
+
+    @Query("UPDATE goSleep_table SET onPhone = :time")
+    suspend fun updateOnPhone(time: Long)
+
+
 }

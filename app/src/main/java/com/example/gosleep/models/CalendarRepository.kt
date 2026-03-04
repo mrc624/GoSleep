@@ -8,6 +8,7 @@ import androidx.work.WorkManager
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import com.example.gosleep.data.Event
+import com.example.gosleep.data.GoSleepDao
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -15,7 +16,8 @@ import java.util.concurrent.TimeUnit
 import com.example.gosleep.models.NotificationWorker
 
 class CalendarRepository (
-    private val context: Context
+    private val context: Context,
+    private val dao: GoSleepDao
 ){
 
     fun getEvents(nextHours: Int): List<Event>
@@ -69,5 +71,21 @@ class CalendarRepository (
         }
 
         return events
+    }
+
+    suspend fun getSleepHours(): Float? {
+        return dao.getSleepHours()
+    }
+
+    suspend fun getTimeGetReady(): Float? {
+        return dao.getTimeGetReady()
+    }
+
+    suspend fun updateSleepHours(hours: Float) {
+        dao.updateSleepHours(hours)
+    }
+
+    suspend fun updateTimeGetReady(hours: Float) {
+        dao.updateTimeGetReady(hours)
     }
 }

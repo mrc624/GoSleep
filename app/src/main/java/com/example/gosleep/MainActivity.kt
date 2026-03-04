@@ -58,13 +58,13 @@ class MainActivity : ComponentActivity() {
 
         // Get sensor manager safely
         val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        val sensorRepository = SensorRepository(sensorManager)
+        val sensorRepository = SensorRepository(sensorManager, dao)
 
         // Initialize ViewModel properly
         viewModel = ViewModelProvider(
             this,
             GoSleepViewModelFactory(
-                calendarRepository = CalendarRepository(applicationContext),
+                calendarRepository = CalendarRepository(applicationContext, dao),
                 sensorRepository = sensorRepository,
                 dao = dao,
                 applicationContext

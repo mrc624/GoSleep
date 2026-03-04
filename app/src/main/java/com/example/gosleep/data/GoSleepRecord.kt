@@ -2,6 +2,7 @@ package com.example.gosleep.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDateTime
 
 /**
  * This class stores a single persisted shake count. By using Room,
