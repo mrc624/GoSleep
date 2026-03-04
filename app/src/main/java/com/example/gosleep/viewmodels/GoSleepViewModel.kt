@@ -39,9 +39,25 @@ class GoSleepViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    private val _sleepHours = MutableStateFlow(8.0f)
+    val sleepHours: StateFlow<Float> = _sleepHours
+
+    private val _readyTime = MutableStateFlow(0.5f)
+    val readyTime: StateFlow<Float> = _readyTime
+
+    private val _notificationsEnabled = MutableStateFlow(true)
+    val notificationsEnabled: StateFlow<Boolean> = _notificationsEnabled
+
     init {
         Repositories.sensorRepository = sensorRepository
         Repositories.daoRepository = daoRepository
+
+        viewModelScope.launch(Dispatchers.IO) {
+            _sleepHours.value = daoRepository.getSleepHours()
+            _readyTime.value = daoRepository.getTimeGetReady()
+            _notificationsEnabled.value = true // or load from DB later
+        }
+
         fetchCalendar()
         scheduleEventNotifications()
     }
@@ -126,34 +142,23 @@ class GoSleepViewModel(
         return nextSixAM
     }
 
-    fun toggleNotifications(state: Boolean)
-    {
-
+    fun toggleNotifications(enabled: Boolean) {
+        _notificationsEnabled.value = enabled
+        // optionally persist later
     }
 
-    fun getNotifications(): Boolean
-    {
-        return true
+    fun submitPrefSleepTime(time: Float) {
+        viewModelScope.launch(Dispatchers.IO) {
+            daoRepository.updateSleepHours(time)
+            _sleepHours.value = time
+        }
     }
 
-    fun submitPrefSleepTime(time: Float)
-    {
-
-    }
-
-    fun getPrefSleepTime(): Float
-    {
-        return 8.0f
-    }
-
-    fun submitReadyTime(time: Float)
-    {
-
-    }
-
-    fun getReadyTime(): Float
-    {
-        return 1.0f
+    fun submitReadyTime(time: Float) {
+        viewModelScope.launch(Dispatchers.IO) {
+            daoRepository.updateTimeGetReady(time)
+            _readyTime.value = time
+        }
     }
 
 }

@@ -17,6 +17,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gosleep.viewmodels.GoSleepViewModel
 import com.example.gosleep.ui.theme.White
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.setValue
 
 @Composable
 fun Settings(viewModel: GoSleepViewModel, screenBackground: androidx.compose.ui.graphics.Color, modifier: Modifier)
@@ -67,7 +71,7 @@ fun DisplaySlider(viewModel: GoSleepViewModel, modifier: Modifier)
         horizontalArrangement = Arrangement.SpaceBetween
     )
     {
-        var isOn by remember { mutableStateOf(viewModel.getNotifications()) }
+        val isOn by viewModel.notificationsEnabled.collectAsState()
 
         Text(
             text = "Notifications",
@@ -77,8 +81,7 @@ fun DisplaySlider(viewModel: GoSleepViewModel, modifier: Modifier)
         Switch(
             checked = isOn,
             onCheckedChange = { newValue ->
-                isOn = newValue
-                viewModel.toggleNotifications(isOn) // 1 = ON, 0 = OFF
+                viewModel.toggleNotifications(newValue) // 1 = ON, 0 = OFF
             }
         )
     }
@@ -87,7 +90,7 @@ fun DisplaySlider(viewModel: GoSleepViewModel, modifier: Modifier)
 @Composable
 fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
 {
-    var sleepTimeText by remember { mutableStateOf(viewModel.getPrefSleepTime().toString()) }
+    var sleepTimeText by remember { mutableStateOf(viewModel.sleepHours.value.toString()) }
 
     Column (
         modifier = modifier
@@ -96,7 +99,7 @@ fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
     )
     {
         Text(
-            text = "Time to Get Ready"
+            text = "Preferred Sleep Time"
         )
 
         Row(
@@ -127,7 +130,6 @@ fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
                     if (time != null)
                     {
                         viewModel.submitPrefSleepTime(time)
-                        sleepTimeText = viewModel.getPrefSleepTime().toString()
                     }
                 }
             ) {
@@ -140,7 +142,7 @@ fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
 @Composable
 fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
 {
-    var readyTimeText by remember { mutableStateOf(viewModel.getReadyTime().toString()) }
+    var readyTimeText by remember { mutableStateOf(viewModel.readyTime.value.toString()) }
 
     Column (
         modifier = modifier
@@ -149,7 +151,7 @@ fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
     )
     {
         Text(
-            text = "Preferred Sleep Time"
+            text = "Time to Get Ready"
         )
 
         Row(
@@ -180,7 +182,6 @@ fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
                     if (time != null)
                     {
                         viewModel.submitReadyTime(time)
-                        readyTimeText = viewModel.getReadyTime().toString()
                     }
                 }
             ) {

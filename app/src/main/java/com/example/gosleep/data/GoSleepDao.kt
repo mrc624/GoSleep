@@ -24,10 +24,10 @@ interface GoSleepDao {
     fun getRecordFlow(): Flow<GoSleepRecord?>
 
     @Query("SELECT sleepHours FROM goSleep_table WHERE id = 1")
-    suspend fun getSleepHours(): Float?
+    fun getSleepHours(): Float?
 
     @Query("SELECT timeGetReady FROM goSleep_table WHERE id = 1")
-    suspend fun getTimeGetReady(): Float?
+    fun getTimeGetReady(): Float?
     /**
      * Inserts or updates the user's sleep configuration.
      *
@@ -40,13 +40,13 @@ interface GoSleepDao {
     @Update
     suspend fun updateRecord(record: GoSleepRecord)
 
-    @Query("UPDATE goSleep_table SET sleepHours = :hours")
+    @Query("UPDATE goSleep_table SET sleepHours = :hours WHERE id = 1")
     suspend fun updateSleepHours(hours: Float)
 
-    @Query("UPDATE goSleep_table SET timeGetReady = :hours")
+    @Query("UPDATE goSleep_table SET timeGetReady = :hours WHERE id = 1")
     suspend fun updateTimeGetReady(hours: Float)
 
-    @Query("UPDATE goSleep_table SET onPhone = :time")
+    @Query("UPDATE goSleep_table SET onPhone = :time WHERE id = 1")
     suspend fun updateOnPhone(time: Long)
 
     @Query("SELECT onPhone FROM goSleep_table WHERE id = 1")

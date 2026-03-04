@@ -73,11 +73,11 @@ class CalendarRepository (
         return events
     }
 
-    suspend fun getSleepHours(): Float? {
+    suspend fun getSleepHours(): Float {
         return Repositories.daoRepository.getSleepHours()
     }
 
-    suspend fun getTimeGetReady(): Float? {
+    suspend fun getTimeGetReady(): Float {
         return Repositories.daoRepository.getTimeGetReady()
     }
 
