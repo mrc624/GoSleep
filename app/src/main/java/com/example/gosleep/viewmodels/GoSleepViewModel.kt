@@ -1,10 +1,16 @@
 package com.example.gosleep.viewmodels
+import android.content.Context
 import com.example.gosleep.data.Event
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gosleep.data.GoSleepDao
 import com.example.gosleep.models.SensorRepository
 import com.example.gosleep.models.CalendarRepository
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.collections.emptyList
@@ -16,7 +22,8 @@ import java.time.LocalDateTime
 class GoSleepViewModel(
     private val calendarRepository: CalendarRepository,
     private val sensorRepository: SensorRepository,
-    private val dao: GoSleepDao
+    private val dao: GoSleepDao,
+    private val context: Context
 ): ViewModel() {
 
     private val _events = MutableStateFlow<List<Event>>(emptyList())
@@ -24,6 +31,48 @@ class GoSleepViewModel(
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
+
+    fun sendNotificationIfEventSoon(nextEvent: Event) {
+        viewModelScope.launch {
+            val currentTime = LocalDateTime.now()
+            val duration = Duration.between(currentTime, nextEvent.startTime)
+
+            // 6 hours in milliseconds
+            val sixHoursMillis = 6 * 60 * 60 * 1000L
+
+            if (duration.toMillis() in 1..sixHoursMillis) {
+                // Create notification channel (required for Android O+)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val channel = NotificationChannel(
+                        "gosleep_channel",
+                        "GoSleep Notifications",
+                        NotificationManager.IMPORTANCE_HIGH
+                    ).apply {
+                        description = "Notifications for upcoming events"
+                    }
+                    val notificationManager =
+                        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    notificationManager.createNotificationChannel(channel)
+                }
+
+                // Build the notification
+                val notification = NotificationCompat.Builder(context, "gosleep_channel")
+                    .setSmallIcon(android.R.drawable.ic_dialog_info) // Replace with your icon
+                    .setContentTitle("GoSleep Reminder")
+                    .setContentText("Your next event is in less than 6 hours!")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .build()
+
+                // Show the notification
+                try {
+                    NotificationManagerCompat.from(context).notify(System.currentTimeMillis().toInt(), notification)
+                } catch (e: SecurityException) {
+                    // Permission not granted, maybe log or ignore
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
 
     fun fetchCalendar(){
         viewModelScope.launch (Dispatchers.IO){

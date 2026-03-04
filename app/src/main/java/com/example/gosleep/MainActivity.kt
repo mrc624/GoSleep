@@ -66,7 +66,8 @@ class MainActivity : ComponentActivity() {
             GoSleepViewModelFactory(
                 calendarRepository = CalendarRepository(applicationContext),
                 sensorRepository = sensorRepository,
-                dao = dao
+                dao = dao,
+                applicationContext
             )
         )[GoSleepViewModel::class.java]
 

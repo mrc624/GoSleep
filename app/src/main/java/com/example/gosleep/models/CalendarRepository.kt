@@ -1,15 +1,41 @@
 package com.example.gosleep.models
+
+import android.app.Application
 import android.content.Context
 import android.provider.CalendarContract
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import com.example.gosleep.data.Event
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.concurrent.TimeUnit
+import com.example.gosleep.models.NotificationWorker
 
 class CalendarRepository (
     private val context: Context
 ){
 
+    init {
+        scheduleEventNotifications()
+    }
+
+    private fun scheduleEventNotifications() {
+        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(
+            15, TimeUnit.MINUTES
+        )
+            .setInitialDelay(5, TimeUnit.SECONDS)
+            .build()
+
+        WorkManager.getInstance(context.applicationContext).enqueueUniquePeriodicWork(
+            "event_notifications",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            workRequest
+        )
+    }
+    
     fun getEvents(nextHours: Int): List<Event>
     {
         val events = mutableListOf<Event>()
