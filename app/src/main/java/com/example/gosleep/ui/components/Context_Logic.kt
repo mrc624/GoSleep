@@ -12,12 +12,12 @@ import androidx.compose.ui.unit.dp
 import com.example.gosleep.ui.theme.White
 
 @Composable
-fun Context_Logic(modifier: Modifier = Modifier)
+fun Context_Logic(screenBackground: androidx.compose.ui.graphics.Color, modifier: Modifier = Modifier)
 {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
+            .background(screenBackground)
     ) {
         Text(
             text = "Context Logic",

@@ -25,7 +25,11 @@ import com.example.gosleep.viewmodels.GoSleepViewModel
 import com.example.gosleep.ui.components.navigationBarLayout
 import com.example.gosleep.ui.components.TopScreen
 import java.time.LocalDateTime
-import com.example.gosleep.ui.theme.PurpleGrey80
+import com.example.gosleep.ui.theme.White
+import com.example.gosleep.ui.theme.Charcoal
+import com.example.gosleep.ui.theme.SkyBlue
+import com.example.gosleep.ui.theme.Navy
+import androidx.compose.foundation.isSystemInDarkTheme
 
 @Composable
 fun GoSleepScreen(
@@ -35,18 +39,21 @@ fun GoSleepScreen(
 {
     var screen by remember { mutableStateOf(TopScreen.Dashboard) }
 
+    val screenBackground = if (isSystemInDarkTheme()) Charcoal else White
+    val bubbleBackground = if (isSystemInDarkTheme()) Navy else SkyBlue
+
     Box(modifier = Modifier.fillMaxSize()) {
 
         val modifier: Modifier = Modifier
             .padding(12.dp)
-            .background(PurpleGrey80, RoundedCornerShape(16.dp))
+            .background(bubbleBackground, RoundedCornerShape(16.dp))
 
         when (screen)
         {
-            TopScreen.Dashboard -> Dashboard(viewModel = viewModel, modifier = modifier)
-            TopScreen.Context_Logic -> Context_Logic(modifier)
-            TopScreen.Privacy_By_Design -> Privacy_By_Design(modifier)
-            TopScreen.Settings -> Settings(viewModel = viewModel, modifier = modifier)
+            TopScreen.Dashboard -> Dashboard(viewModel = viewModel, screenBackground, modifier = modifier)
+            TopScreen.Context_Logic -> Context_Logic(screenBackground,modifier)
+            TopScreen.Privacy_By_Design -> Privacy_By_Design(screenBackground,modifier)
+            TopScreen.Settings -> Settings(viewModel = viewModel, screenBackground, modifier = modifier)
         }
 
         screen = navigationBarLayout(

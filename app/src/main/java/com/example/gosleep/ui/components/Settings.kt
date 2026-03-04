@@ -33,12 +33,12 @@ import com.example.gosleep.viewmodels.GoSleepViewModel
 import com.example.gosleep.ui.theme.White
 
 @Composable
-fun Settings(viewModel: GoSleepViewModel, modifier: Modifier)
+fun Settings(viewModel: GoSleepViewModel, screenBackground: androidx.compose.ui.graphics.Color, modifier: Modifier)
 {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
+            .background(screenBackground)
     ) {
         Text(
             text = "Settings",

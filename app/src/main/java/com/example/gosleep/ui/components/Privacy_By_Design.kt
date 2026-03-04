@@ -12,12 +12,12 @@ import androidx.compose.ui.unit.dp
 import com.example.gosleep.ui.theme.White
 
 @Composable
-fun Privacy_By_Design(modifier: Modifier = Modifier)
+fun Privacy_By_Design(screenBackground: androidx.compose.ui.graphics.Color, modifier: Modifier = Modifier)
 {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
+            .background(screenBackground)
     ) {
         Text(
             text = "Privacy By Design",

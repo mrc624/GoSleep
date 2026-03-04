@@ -21,11 +21,11 @@ import java.util.Locale
 import com.example.gosleep.ui.theme.White
 
 @Composable
-fun Dashboard(viewModel: GoSleepViewModel, modifier: Modifier = Modifier) {
+fun Dashboard(viewModel: GoSleepViewModel, screenBackground: androidx.compose.ui.graphics.Color, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = White)
+            .background(color = screenBackground)
     ) {
         Text(
             text = "Home",
