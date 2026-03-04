@@ -86,4 +86,9 @@ class SensorRepository(
 
         awaitClose { sensorManager.unregisterListener(listener) }
     }
+
+    fun isUserAwake(): Boolean
+    {
+        return true
+    }
 }

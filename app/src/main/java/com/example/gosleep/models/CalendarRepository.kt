@@ -18,24 +18,6 @@ class CalendarRepository (
     private val context: Context
 ){
 
-    init {
-        scheduleEventNotifications()
-    }
-
-    private fun scheduleEventNotifications() {
-        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(
-            15, TimeUnit.MINUTES
-        )
-            .setInitialDelay(5, TimeUnit.SECONDS)
-            .build()
-
-        WorkManager.getInstance(context.applicationContext).enqueueUniquePeriodicWork(
-            "event_notifications",
-            ExistingPeriodicWorkPolicy.REPLACE,
-            workRequest
-        )
-    }
-    
     fun getEvents(nextHours: Int): List<Event>
     {
         val events = mutableListOf<Event>()
