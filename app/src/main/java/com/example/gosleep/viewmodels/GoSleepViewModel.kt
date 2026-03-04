@@ -55,7 +55,7 @@ class GoSleepViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _sleepHours.value = daoRepository.getSleepHours()
             _readyTime.value = daoRepository.getTimeGetReady()
-            _notificationsEnabled.value = true // or load from DB later
+            _notificationsEnabled.value = daoRepository.getNotifications()
         }
 
         fetchCalendar()
@@ -143,8 +143,10 @@ class GoSleepViewModel(
     }
 
     fun toggleNotifications(enabled: Boolean) {
-        _notificationsEnabled.value = enabled
-        // optionally persist later
+        viewModelScope.launch(Dispatchers.IO) {
+            daoRepository.updateNotifications(enabled)
+            _notificationsEnabled.value = enabled
+        }
     }
 
     fun submitPrefSleepTime(time: Float) {

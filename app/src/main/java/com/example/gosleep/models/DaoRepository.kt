@@ -41,8 +41,18 @@ class DaoRepository(private val dao: GoSleepDao) {
         }
     }
 
-    fun getNotifications(): Boolean? {
-        return dao.getNotifications()
+    fun getNotifications(): Boolean {
+        val notif: Boolean? =  dao.getNotifications()
+
+        if (notif == null)
+        {
+            updateNotifications(true)
+            return true
+        }
+        else
+        {
+            return notif
+        }
     }
 
     suspend fun updateSleepHours(hours: Float) {
@@ -51,10 +61,6 @@ class DaoRepository(private val dao: GoSleepDao) {
 
     suspend fun updateTimeGetReady(hours: Float) {
         dao.updateTimeGetReady(hours)
-    }
-
-    suspend fun updateOnPhone(time: Long) {
-        dao.updateOnPhone(time)
     }
 
     fun updateNotifications(notifications: Boolean) {

@@ -53,7 +53,9 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             GoSleepDatabase::class.java,
             "gosleep-db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
         val dao = db.goSleepDao()
 

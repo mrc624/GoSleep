@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
  * @version 1.0
  */
 
-@Database(entities = [GoSleepRecord::class], version = 1, exportSchema = false)
+@Database(entities = [GoSleepRecord::class], version = 3, exportSchema = false)
 abstract class GoSleepDatabase : RoomDatabase() {
 
     /**
