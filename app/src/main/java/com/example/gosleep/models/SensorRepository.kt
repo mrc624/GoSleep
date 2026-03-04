@@ -1,4 +1,4 @@
-package com.example.gosleep.data
+package com.example.gosleep.models
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -43,7 +43,7 @@ class SensorRepository(
                         val y = event.values[1]
                         val z = event.values[2]
                         val gForce =
-                            sqrt(x*x + y*y + z*z) / SensorManager.GRAVITY_EARTH
+                            sqrt(x * x + y * y + z * z) / SensorManager.GRAVITY_EARTH
                         lastAccel = gForce
                     }
 
@@ -51,7 +51,7 @@ class SensorRepository(
                         val rx = event.values[0]
                         val ry = event.values[1]
                         val rz = event.values[2]
-                        val rotation = sqrt(rx*rx + ry*ry + rz*rz)
+                        val rotation = sqrt(rx * rx + ry * ry + rz * rz)
                         lastGyro = rotation
                     }
                 }

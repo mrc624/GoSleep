@@ -18,7 +18,7 @@ import com.example.gosleep.models.CalendarRepository
 import kotlin.getValue
 import androidx.room.Room
 import com.example.gosleep.data.GoSleepDatabase
-import com.example.gosleep.data.SensorRepository
+import com.example.gosleep.models.SensorRepository
 import android.hardware.SensorManager
 import androidx.lifecycle.ViewModelProvider
 

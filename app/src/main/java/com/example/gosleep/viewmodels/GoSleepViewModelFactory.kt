@@ -3,7 +3,7 @@ package com.example.gosleep.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.gosleep.data.GoSleepDao
-import com.example.gosleep.data.SensorRepository
+import com.example.gosleep.models.SensorRepository
 import com.example.gosleep.models.CalendarRepository
 
 class GoSleepViewModelFactory(private val calendarRepository: CalendarRepository, private val sensorRepository: SensorRepository, private val dao: GoSleepDao): ViewModelProvider.Factory {

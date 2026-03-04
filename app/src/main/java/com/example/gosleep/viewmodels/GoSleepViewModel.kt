@@ -1,9 +1,9 @@
 package com.example.gosleep.viewmodels
-import com.example.gosleep.models.Event
+import com.example.gosleep.data.Event
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gosleep.data.GoSleepDao
-import com.example.gosleep.data.SensorRepository
+import com.example.gosleep.models.SensorRepository
 import com.example.gosleep.models.CalendarRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

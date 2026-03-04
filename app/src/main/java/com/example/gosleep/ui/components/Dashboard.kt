@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.gosleep.models.Event
+import com.example.gosleep.data.Event
 import com.example.gosleep.viewmodels.GoSleepViewModel
 import java.util.Locale
 import com.example.gosleep.ui.theme.White

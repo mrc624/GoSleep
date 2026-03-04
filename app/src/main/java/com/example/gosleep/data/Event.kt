@@ -1,4 +1,4 @@
-package com.example.gosleep.models
+package com.example.gosleep.data
 
 import java.time.LocalDateTime
 
