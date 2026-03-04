@@ -41,6 +41,7 @@ class GoSleepViewModel(
     init {
         Repositories.sensorRepository = sensorRepository
         Repositories.calendarRepository = calendarRepository
+        fetchCalendar()
         scheduleEventNotifications()
     }
 
