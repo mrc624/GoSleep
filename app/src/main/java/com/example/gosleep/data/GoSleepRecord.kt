@@ -12,7 +12,9 @@ import java.time.LocalDateTime
  * @property sleepHours The desired number of hours for the user to sleep
  * @property timeGetReady The time needed for the user to get ready in the morning
  * @property onPhone Logs the time a user goes on their phone
- * @property notifications True if notifcations are turned on, false uf they are off
+ * @property notifications True if notifcations are turned on, false uf they are off,
+ * @property notificationsStart Logs when notifications should start for the day
+ * @property notificationsEnd Logs when notifications should end for the day
  *
  * @author Molly Olsen and Matthew Cloutier
  * @version 1.0
@@ -28,5 +30,9 @@ data class GoSleepRecord (
 
     val onPhone: Long,
 
-    val notifications: Boolean
+    val notifications: Boolean,
+
+    val notificationsStart: Long,
+
+    val notificationsEnd: Long
 )

@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 
 class GoSleepViewModel(
@@ -48,6 +49,13 @@ class GoSleepViewModel(
     private val _notificationsEnabled = MutableStateFlow(true)
     val notificationsEnabled: StateFlow<Boolean> = _notificationsEnabled
 
+    private val _notificationsStart = MutableStateFlow(LocalTime.of(22, 0))
+    val notificationsStart: StateFlow<LocalTime> = _notificationsStart
+
+    private val _notificationsEnd = MutableStateFlow(LocalTime.of(7, 0))
+    val notificationsEnd: StateFlow<LocalTime> = _notificationsEnd
+
+
     init {
         Repositories.sensorRepository = sensorRepository
         Repositories.daoRepository = daoRepository
@@ -56,6 +64,8 @@ class GoSleepViewModel(
             _sleepHours.value = daoRepository.getSleepHours()
             _readyTime.value = daoRepository.getTimeGetReady()
             _notificationsEnabled.value = daoRepository.getNotifications()
+            _notificationsStart.value = daoRepository.getNotificationsStart()
+            _notificationsEnd.value = daoRepository.getNotificationsEnd()
         }
 
         fetchCalendar()
@@ -160,6 +170,20 @@ class GoSleepViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             daoRepository.updateTimeGetReady(time)
             _readyTime.value = time
+        }
+    }
+
+    fun submitNotificationsStart(time: LocalTime) {
+        viewModelScope.launch(Dispatchers.IO) {
+            daoRepository.updateNotificationsStart(time)
+            _notificationsStart.value = time
+        }
+    }
+
+    fun submitNotificationsEnd(time: LocalTime) {
+        viewModelScope.launch(Dispatchers.IO) {
+            daoRepository.updateNotificationsEnd(time)
+            _notificationsEnd.value = time
         }
     }
 
