@@ -51,7 +51,7 @@ fun DisplayNextEvent(event: Event?, modifier: Modifier)
 {
     Column(modifier = modifier
         .fillMaxWidth()
-        .padding(32.dp)
+        .padding(15.dp)
     )
     {
         Text(
@@ -91,7 +91,7 @@ fun DisplayFirstMorningEvent(event: Event?, sleepHours: Float, modifier: Modifie
 {
     Column(modifier = modifier
         .fillMaxWidth()
-        .padding(32.dp)
+        .padding(15.dp)
     )
     {
         Text(
