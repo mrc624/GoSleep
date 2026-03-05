@@ -100,7 +100,7 @@ fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
     )
     {
         Text(
-            text = "Preferred Sleep Time"
+            text = "Preferred Sleep Time (Hours)"
         )
 
         Row(
@@ -145,8 +145,6 @@ fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
 {
     var readyTimeText by remember { mutableStateOf(viewModel.readyTime.value.toString()) }
 
-    Spacer(modifier = Modifier.height(24.dp))
-
     Column (
         modifier = modifier
             .fillMaxWidth()
@@ -154,7 +152,7 @@ fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
     )
     {
         Text(
-            text = "Time to Get Ready"
+            text = "Time to Get Ready (Hours)"
         )
 
         Row(
