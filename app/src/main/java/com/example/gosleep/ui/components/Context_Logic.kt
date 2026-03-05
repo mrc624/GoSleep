@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Composition
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,8 +38,8 @@ fun Context_Logic(screenBackground: androidx.compose.ui.graphics.Color, modifier
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text(
-            text =
+        ContextSection(
+            explanation =
                 """
                     Your phone's motion sensors (accelerometer & gyroscope) are used to detect when you pick up your phone
                         * The accelerometer measures linear acceleration and detects sudden changes in motion
@@ -49,6 +50,21 @@ fun Context_Logic(screenBackground: androidx.compose.ui.graphics.Color, modifier
                     telling them to go to sleep. User preferences, including how much sleep they would like to get, if notifications are turned on, and
                     how long they need in the morning to get ready are saved in a room database. The last time they picked up the phone is also stored.        
                 """.trimIndent(),
+            modifier
+        )
+
+    }
+}
+
+@Composable
+fun ContextSection(explanation: String, modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = explanation,
             style = MaterialTheme.typography.bodyMedium,
             lineHeight = 22.sp
         )

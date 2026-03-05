@@ -35,7 +35,7 @@ fun Privacy_By_Design(screenBackground: androidx.compose.ui.graphics.Color, modi
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         PermissionSection(
             title = "Motion Sensors (Accelerometer & Gyroscope)",
@@ -45,8 +45,11 @@ fun Privacy_By_Design(screenBackground: androidx.compose.ui.graphics.Color, modi
                 * Data stays on your device
                 * No raw sensor data is stored
                 * The only thing being stored is the time stamp of the most recent phone pick up
-            """.trimIndent()
+            """.trimIndent(),
+            modifier
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         PermissionSection(
             title = "Calendar",
@@ -56,8 +59,11 @@ fun Privacy_By_Design(screenBackground: androidx.compose.ui.graphics.Color, modi
                 * Our calendar access is read only, meaning we will never modify or delete calendar items
                 * Only event times and titles are read
                 * The data is only used locally
-            """.trimIndent()
+            """.trimIndent(),
+            modifier
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         PermissionSection(
             title = "Notifications",
@@ -65,30 +71,40 @@ fun Privacy_By_Design(screenBackground: androidx.compose.ui.graphics.Color, modi
                 These notifications are used to remind you when to sleep.
                 Privacy considerations:
                 * Notifications can be turned off at anytime
-            """.trimIndent()
+            """.trimIndent(),
+            modifier
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         PermissionSection(
             title = "General Practices",
             explanation = """
                 * All recorded information is stored in a local database
                 * We only collect the minimal data needed 
-            """.trimIndent()
+            """.trimIndent(),
+            modifier
         )
     }
 }
 
 @Composable
-fun PermissionSection(title: String, explanation: String) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleMedium
-    )
-    Spacer(Modifier.height(6.dp))
-    Text(
-        text = explanation,
-        style = MaterialTheme.typography.bodyMedium,
-        lineHeight = 22.sp
-    )
-    Spacer(Modifier.height(16.dp))
+fun PermissionSection(title: String, explanation: String, modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(Modifier.height(6.dp))
+        Text(
+            text = explanation,
+            style = MaterialTheme.typography.bodyMedium,
+            lineHeight = 22.sp
+        )
+        Spacer(Modifier.height(16.dp))
+    }
 }

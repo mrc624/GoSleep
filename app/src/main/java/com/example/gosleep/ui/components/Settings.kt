@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -143,6 +144,8 @@ fun DisplaySleepHours(viewModel: GoSleepViewModel, modifier: Modifier)
 fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
 {
     var readyTimeText by remember { mutableStateOf(viewModel.readyTime.value.toString()) }
+
+    Spacer(modifier = Modifier.height(24.dp))
 
     Column (
         modifier = modifier
