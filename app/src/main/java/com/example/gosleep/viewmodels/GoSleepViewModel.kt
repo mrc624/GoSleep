@@ -64,6 +64,9 @@ class GoSleepViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             sensorRepository.detectPhoneUsage().collect()
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
             _sleepHours.value = daoRepository.getSleepHours()
             _readyTime.value = daoRepository.getTimeGetReady()
             _notificationsEnabled.value = daoRepository.getNotifications()
