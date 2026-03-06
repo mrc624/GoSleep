@@ -70,4 +70,5 @@ interface GoSleepDao {
 
     @Query("UPDATE goSleep_table SET notificationsEnd = :notificationsEnd WHERE id = 1")
     fun updateNotificationsEnd(notificationsEnd: Long)
+
 }
