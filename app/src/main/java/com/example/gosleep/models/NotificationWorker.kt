@@ -34,7 +34,7 @@ class NotificationWorker(
         nextWakeupEvent?.let {
             val duration = Duration.between(LocalDateTime.now(), it.startTime)
 
-            if (sensorRepository.isUserAwake() && !calendarRepository.isWithinWakeup()) {
+            if (sensorRepository.isUserAwake() && calendarRepository.isWithinNotificationHours()) {
                 val context = applicationContext
 
                 val channel = NotificationChannel(

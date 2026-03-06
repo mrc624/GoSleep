@@ -101,6 +101,20 @@ class CalendarRepository (
         }
     }
 
+    suspend fun isWithinNotificationHours(): Boolean {
+        val minutes = (Repositories.daoRepository.getTimeGetReady() * 60).toLong()
+        val duration = Duration.ofMinutes(minutes)
+
+        val wakeUpTime = getFirstWakeupEvent()?.startTime?.minus(duration)
+
+        val sleepMinutes = (Repositories.daoRepository.getSleepHours() * 60).toLong()
+        val sleepDuration = Duration.ofMinutes(sleepMinutes)
+
+        val sleepTime = wakeUpTime?.minus(sleepDuration)
+
+        return (LocalDateTime.now() <= wakeUpTime) && (LocalDateTime.now() >= sleepTime)
+    }
+
     fun getNextEvent(): Event? {
         val events = getEvents(48)
         val nextEvent = events.firstOrNull { it.startTime >= LocalDateTime.now() }
@@ -119,17 +133,5 @@ class CalendarRepository (
         }
 
         return nextWakeupEvent
-    }
-
-    suspend fun isWithinWakeup(): Boolean {
-        val minutes = (Repositories.daoRepository.getTimeGetReady() * 60).toLong()
-        val duration = Duration.ofMinutes(minutes)
-        val nextWakeupEvent = getFirstWakeupEvent()
-
-        val wakeUp = nextWakeupEvent?.startTime?.minus(duration)
-        val now = LocalDateTime.now()
-
-        // true if they are awake
-        return now >= wakeUp
     }
 }
