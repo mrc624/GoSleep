@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
 import com.example.gosleep.models.NotificationWorker
+import java.time.Duration
 import java.time.LocalTime
 
 class CalendarRepository (
@@ -100,5 +101,14 @@ class CalendarRepository (
         }
     }
 
+    suspend fun isWithinWakeup(nextEvent: Event): Boolean {
+        val minutes = (Repositories.daoRepository.getTimeGetReady() * 60).toLong()
+        val duration = Duration.ofMinutes(minutes)
 
+        val wakeUp = nextEvent.startTime.minus(duration)
+        val now = LocalDateTime.now()
+
+        // true if they are awake
+        return now >= wakeUp
+    }
 }

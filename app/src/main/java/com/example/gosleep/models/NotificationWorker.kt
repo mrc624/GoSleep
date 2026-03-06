@@ -43,7 +43,7 @@ class NotificationWorker(
             val duration = Duration.between(LocalDateTime.now(), it.startTime)
             val sixHoursMillis = 6 * 60 * 60 * 1000L
 
-            if (duration.toMillis() in 1..sixHoursMillis && sensorRepository.isUserAwake()) {
+            if (duration.toMillis() in 1..sixHoursMillis && sensorRepository.isUserAwake() && !calendarRepository.isWithinWakeup(nextEvent)) {
                 val context = applicationContext
 
                 val channel = NotificationChannel(
