@@ -5,6 +5,5 @@ import android.app.Application
 class GoSleepApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        Repositories.initialize(this)
     }
 }

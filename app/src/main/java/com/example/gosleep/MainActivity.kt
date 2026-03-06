@@ -1,6 +1,7 @@
 package com.example.gosleep
 
 import android.Manifest
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -21,6 +22,9 @@ import com.example.gosleep.data.GoSleepDatabase
 import com.example.gosleep.models.SensorRepository
 import android.hardware.SensorManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.gosleep.data.Repositories.daoRepository
 import com.example.gosleep.models.DaoRepository
 
 
@@ -52,9 +56,22 @@ class MainActivity : ComponentActivity() {
         val db = Room.databaseBuilder(
             applicationContext,
             GoSleepDatabase::class.java,
-            "gosleep-db"
+            "gosleep.db"
         )
-            .fallbackToDestructiveMigration()
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+
+                    // Prepopulate the settings row so the table is never empty
+                    db.execSQL(
+                        """
+                        INSERT INTO goSleep_table(id, sleepHours, timeGetReady, onPhone, notifications, notificationsStart, notificationsEnd)
+                        VALUES (1, 8.0, 0.5, 0, 1, 18000, 43200)
+                    """.trimIndent()
+                    )
+                }
+            })
+            .fallbackToDestructiveMigration(false)
             .build()
 
         val dao = db.goSleepDao()

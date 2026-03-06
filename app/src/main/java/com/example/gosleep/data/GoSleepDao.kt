@@ -63,12 +63,12 @@ interface GoSleepDao {
     suspend fun updateOnPhone(time: Long)
 
     @Query("UPDATE goSleep_table SET notifications = :notifications WHERE id = 1")
-    fun updateNotifications(notifications: Boolean)
+    suspend fun updateNotifications(notifications: Boolean)
 
     @Query("UPDATE goSleep_table SET notificationsStart = :notificationsStart WHERE id = 1")
-    fun updateNotificationsStart(notificationsStart: Long)
+    suspend fun updateNotificationsStart(notificationsStart: Long)
 
     @Query("UPDATE goSleep_table SET notificationsEnd = :notificationsEnd WHERE id = 1")
-    fun updateNotificationsEnd(notificationsEnd: Long)
+    suspend fun updateNotificationsEnd(notificationsEnd: Long)
 
 }
