@@ -34,7 +34,10 @@ class NotificationWorker(
         nextWakeupEvent?.let {
             val duration = Duration.between(LocalDateTime.now(), it.startTime)
 
-            if (sensorRepository.isUserAwake() && calendarRepository.isWithinNotificationHours()) {
+            val awake = sensorRepository.isUserAwake()
+            val withinHours = calendarRepository.isWithinNotificationHours()
+
+            if (awake && withinHours) {
                 val context = applicationContext
 
                 val channel = NotificationChannel(
@@ -48,7 +51,7 @@ class NotificationWorker(
                 val notification = NotificationCompat.Builder(context, "gosleep_channel")
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
                     .setContentTitle("GoSleep Reminder")
-                    .setContentText("Your next event is in less than $sleep hours!")
+                    .setContentText("Your next event is in less than ${duration.toHours()} hours!")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .build()
 
