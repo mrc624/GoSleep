@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
 import com.example.gosleep.models.NotificationWorker
+import java.time.LocalTime
 
 class CalendarRepository (
     private val context: Context
@@ -88,4 +89,16 @@ class CalendarRepository (
     suspend fun updateTimeGetReady(hours: Float) {
         Repositories.daoRepository.updateTimeGetReady(hours)
     }
+
+    fun isWithinEventHours(time: LocalTime, notificationsStart: LocalTime, notificationsEnd: LocalTime): Boolean {
+        return if (notificationsStart <= notificationsEnd) {
+            // Normal range (e.g., 09:00 → 17:00)
+            time.isAfter(notificationsStart) && time.isBefore(notificationsEnd)
+        } else {
+            // Overnight range (e.g., 22:00 → 07:00)
+            time.isAfter(notificationsStart) || time.isBefore(notificationsEnd)
+        }
+    }
+
+
 }

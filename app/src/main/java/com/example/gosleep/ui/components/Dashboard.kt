@@ -55,7 +55,7 @@ fun DisplayNextEvent(event: Event?, modifier: Modifier)
     )
     {
         Text(
-            text = "Your Next Event",
+            text = "Your Next Wakeup Event",
             style = androidx.compose.material3.MaterialTheme.typography.headlineSmall
         )
 
@@ -95,7 +95,7 @@ fun DisplayFirstMorningEvent(event: Event?, sleepHours: Float, modifier: Modifie
     )
     {
         Text(
-            text = "Your Next Morning Event",
+            text = "Your Next Wakeup Event",
             style = androidx.compose.material3.MaterialTheme.typography.headlineSmall
         )
 

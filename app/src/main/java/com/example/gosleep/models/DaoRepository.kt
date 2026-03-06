@@ -1,5 +1,6 @@
 package com.example.gosleep.models
 
+import android.util.Log
 import com.example.gosleep.data.GoSleepDao
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -24,6 +25,7 @@ class DaoRepository(private val dao: GoSleepDao) {
     }
 
     suspend fun getSleepHours(): Float {
+        Log.d("DB", "Got sleep")
         val time: Float? = dao.getSleepHours()
         if (time == null)
         {

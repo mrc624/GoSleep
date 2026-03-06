@@ -5,12 +5,16 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
+import androidx.lifecycle.Lifecycle
 import com.example.gosleep.data.GoSleepDao
 import com.example.gosleep.data.Repositories
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlin.math.sqrt
+import java.time.Duration
+import com.example.gosleep.data.Event
+import java.time.LocalDateTime
 
 
 class SensorRepository(
@@ -95,12 +99,19 @@ class SensorRepository(
 
         awaitClose { sensorManager.unregisterListener(listener) }
     }
-
-    suspend fun isUserAwake(): Boolean
+    suspend fun isUserAwake(nextEvent: Event): Boolean
     {
         val phoneTime = Repositories.daoRepository.getOnPhone()
+        val minutes = (Repositories.daoRepository.getTimeGetReady() * 60).toLong()
+        val duration = Duration.ofMinutes(minutes)
 
-        if (phoneTime != null)
+        val wakeUp = nextEvent.startTime.minus(duration)
+        val now = LocalDateTime.now()
+
+        if (now >= wakeUp) {
+            return false
+        }
+        else if (phoneTime != null)
         {
             return System.currentTimeMillis() <= phoneTime + AWAKE_THRESHOLD_MILLIS
         }
@@ -110,3 +121,4 @@ class SensorRepository(
         }
     }
 }
+

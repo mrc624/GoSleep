@@ -2,6 +2,7 @@ package com.example.gosleep.ui.components
 
 import android.app.TimePickerDialog
 import android.graphics.Paint
+import android.util.EventLog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -70,7 +71,7 @@ fun Settings(viewModel: GoSleepViewModel, screenBackground: androidx.compose.ui.
 
         DisplayReadyTime(viewModel = viewModel, modifier = modifier)
 
-        NotificationHoursSection(
+        EventHoursSection(
             start = notificationsStart,
             end = notificationsEnd,
             onStartChange = { viewModel.submitNotificationsStart(it) },
@@ -213,7 +214,7 @@ fun DisplayReadyTime(viewModel: GoSleepViewModel, modifier: Modifier)
 }
 
 @Composable
-fun NotificationHoursSection(
+fun EventHoursSection(
     start: LocalTime,
     end: LocalTime,
     onStartChange: (LocalTime) -> Unit,
@@ -225,7 +226,7 @@ fun NotificationHoursSection(
             .fillMaxWidth()
             .padding(15.dp)
     ){
-        Text("Quiet Hours", fontSize = 18.sp)
+        Text("First Event Hours", fontSize = 18.sp)
 
         Spacer(modifier = Modifier.height(10.dp))
 

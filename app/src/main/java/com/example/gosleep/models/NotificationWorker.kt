@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import androidx.activity.compose.ReportDrawn
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
@@ -11,6 +12,8 @@ import androidx.work.WorkerParameters
 import com.example.gosleep.data.Repositories
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.LocalTime
+
 
 class NotificationWorker(
     appContext: Context,
@@ -20,10 +23,21 @@ class NotificationWorker(
 
     private val calendarRepository = CalendarRepository(appContext)
     private val sensorRepository = Repositories.sensorRepository
+    private val dao = Repositories.daoRepository
 
     override suspend fun doWork(): Result {
+
         val events = calendarRepository.getEvents(48)
-        val nextEvent = events.firstOrNull { it.startTime >= LocalDateTime.now() }
+
+        val notificationsStart: LocalTime = dao.getNotificationsStart()
+        val notificationsEnd: LocalTime = dao.getNotificationsEnd()
+
+        val nextEvent = events.firstOrNull { event ->
+            val eventTime = event.startTime.toLocalTime()
+            event.startTime >= LocalDateTime.now() && calendarRepository.isWithinEventHours(eventTime, notificationsStart, notificationsEnd)
+        }
+
+        val sleep = dao.getSleepHours()
 
         nextEvent?.let {
             val duration = Duration.between(LocalDateTime.now(), it.startTime)
@@ -43,7 +57,7 @@ class NotificationWorker(
                 val notification = NotificationCompat.Builder(context, "gosleep_channel")
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
                     .setContentTitle("GoSleep Reminder")
-                    .setContentText("Your next event is in less than 6 hours!")
+                    .setContentText("Your next event is in less than $sleep hours!")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .build()
 

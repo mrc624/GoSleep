@@ -1,4 +1,5 @@
 package com.example.gosleep.viewmodels
+import android.annotation.SuppressLint
 import android.content.Context
 import com.example.gosleep.data.Event
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.collections.emptyList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDateTime
@@ -61,6 +63,7 @@ class GoSleepViewModel(
         Repositories.daoRepository = daoRepository
 
         viewModelScope.launch(Dispatchers.IO) {
+            sensorRepository.detectPhoneUsage().collect()
             _sleepHours.value = daoRepository.getSleepHours()
             _readyTime.value = daoRepository.getTimeGetReady()
             _notificationsEnabled.value = daoRepository.getNotifications()
