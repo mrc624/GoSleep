@@ -7,6 +7,10 @@ The calendar is also used to notify the user, if they are awake, that they shoul
 Instructions:
 Ensure both notifications and calendar access is allowed
 
+Background Task:
+Every 15 minutes a background worker checks if the user should be notified of an upcoming event.
+If the user should be notified, a notification is pushed to the user.
+
 Resources:
 https://developer.android.com/jetpack/androidx/releases/room
 
