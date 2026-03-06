@@ -19,6 +19,7 @@ If the user should be notified, a notification is pushed to the user.
 
 Resources:
 https://developer.android.com/jetpack/androidx/releases/room
+https://developer.android.com/reference/android/provider/CalendarContract
 
 Github:
 https://github.com/mrc624/GoSleep
