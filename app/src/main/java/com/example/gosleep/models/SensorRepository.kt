@@ -101,7 +101,7 @@ class SensorRepository(
     {
         val phoneTime = Repositories.daoRepository.getOnPhone()
 
-        if (phoneTime != null)
+        if (phoneTime != 0L)
         {
             return System.currentTimeMillis() <= phoneTime + AWAKE_THRESHOLD_MILLIS
         }

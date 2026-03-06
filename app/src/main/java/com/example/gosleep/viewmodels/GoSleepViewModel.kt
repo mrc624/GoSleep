@@ -102,27 +102,11 @@ class GoSleepViewModel(
     }
 
     fun getNextEvent(): Event?{
-        fetchCalendar()
-        for (event in _events.value)
-        {
-            if (event.startTime >= LocalDateTime.now())
-            {
-                return event
-            }
-        }
-        return null
+        return calendarRepository.getNextEvent()
     }
 
-    fun getFirstMorningEvent(morningStart: LocalDateTime): Event?{
-        fetchCalendar()
-        for (event in _events.value)
-        {
-            if (event.startTime >= morningStart)
-            {
-                return event
-            }
-        }
-        return null
+    fun getFirstMorningEvent(): Event?{
+        return calendarRepository.getFirstWakeupEvent()
     }
 
     fun getSleepHours(event: Event?): Float
@@ -139,23 +123,6 @@ class GoSleepViewModel(
             }
         }
         return 0.0f
-    }
-
-    fun getMorningStart(): LocalDateTime
-    {
-        val now = LocalDateTime.now()
-
-        var nextSixAM = now
-            .withHour(6)
-            .withMinute(0)
-            .withSecond(0)
-            .withNano(0)
-
-        while (!nextSixAM.isAfter(now)) {
-            nextSixAM = nextSixAM.plusDays(1)
-        }
-
-        return nextSixAM
     }
 
     fun toggleNotifications(enabled: Boolean) {

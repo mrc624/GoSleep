@@ -36,7 +36,7 @@ fun Dashboard(viewModel: GoSleepViewModel, screenBackground: androidx.compose.ui
 
         DisplayNextEvent(viewModel.getNextEvent(), modifier)
 
-        val firstMorningEvent = viewModel.getFirstMorningEvent(viewModel.getMorningStart())
+        val firstMorningEvent = viewModel.getFirstMorningEvent()
 
         DisplayFirstMorningEvent(
             firstMorningEvent,

@@ -27,23 +27,15 @@ class NotificationWorker(
 
     override suspend fun doWork(): Result {
 
-        val events = calendarRepository.getEvents(48)
-
-        val notificationsStart: LocalTime = dao.getNotificationsStart()
-        val notificationsEnd: LocalTime = dao.getNotificationsEnd()
-
-        val nextEvent = events.firstOrNull { event ->
-            val eventTime = event.startTime.toLocalTime()
-            event.startTime >= LocalDateTime.now() && calendarRepository.isWithinEventHours(eventTime, notificationsStart, notificationsEnd)
-        }
+        val nextWakeupEvent = calendarRepository.getFirstWakeupEvent()
 
         val sleep = dao.getSleepHours()
 
-        nextEvent?.let {
+        nextWakeupEvent?.let {
             val duration = Duration.between(LocalDateTime.now(), it.startTime)
             val sixHoursMillis = 6 * 60 * 60 * 1000L
 
-            if (duration.toMillis() in 1..sixHoursMillis && sensorRepository.isUserAwake() && !calendarRepository.isWithinWakeup(nextEvent)) {
+            if (duration.toMillis() in 1..sixHoursMillis && sensorRepository.isUserAwake() && !calendarRepository.isWithinWakeup()) {
                 val context = applicationContext
 
                 val channel = NotificationChannel(
