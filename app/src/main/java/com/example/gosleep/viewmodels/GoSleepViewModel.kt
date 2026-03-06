@@ -57,6 +57,9 @@ class GoSleepViewModel(
     private val _notificationsEnd = MutableStateFlow(LocalTime.of(7, 0))
     val notificationsEnd: StateFlow<LocalTime> = _notificationsEnd
 
+    private val _firstMorningEvent: MutableStateFlow<Event?> = MutableStateFlow(null)
+    val firstMorningEvent: StateFlow<Event?> = _firstMorningEvent
+
 
     init {
         Repositories.sensorRepository = sensorRepository
@@ -72,6 +75,7 @@ class GoSleepViewModel(
             _notificationsEnabled.value = daoRepository.getNotifications()
             _notificationsStart.value = daoRepository.getNotificationsStart()
             _notificationsEnd.value = daoRepository.getNotificationsEnd()
+            _firstMorningEvent.value = calendarRepository.getFirstWakeupEvent()
         }
 
         fetchCalendar()
@@ -103,10 +107,6 @@ class GoSleepViewModel(
 
     fun getNextEvent(): Event?{
         return calendarRepository.getNextEvent()
-    }
-
-    fun getFirstMorningEvent(): Event?{
-        return calendarRepository.getFirstWakeupEvent()
     }
 
     fun getSleepHours(event: Event?): Float

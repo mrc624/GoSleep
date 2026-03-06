@@ -107,7 +107,7 @@ class CalendarRepository (
         return nextEvent
     }
 
-    fun getFirstWakeupEvent(): Event? {
+    suspend fun getFirstWakeupEvent(): Event? {
         val events = getEvents(48)
 
         val notificationsStart: LocalTime = Repositories.daoRepository.getNotificationsStart()

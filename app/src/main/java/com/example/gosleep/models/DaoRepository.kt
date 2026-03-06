@@ -60,7 +60,7 @@ class DaoRepository(private val dao: GoSleepDao) {
         }
     }
 
-    fun getNotificationsStart(): LocalTime {
+    suspend fun getNotificationsStart(): LocalTime {
         val stored = dao.getNotificationsStart()
         return if (stored == null) {
             val defaultLong = DEFAULT_NOTIFICATIONS_START.toLong()
@@ -71,7 +71,7 @@ class DaoRepository(private val dao: GoSleepDao) {
         }
     }
 
-    fun getNotificationsEnd(): LocalTime {
+    suspend fun getNotificationsEnd(): LocalTime {
         val stored = dao.getNotificationsEnd()
         return if (stored == null) {
             val defaultLong = DEFAULT_NOTIFICATIONS_END.toLong()
@@ -108,11 +108,11 @@ class DaoRepository(private val dao: GoSleepDao) {
         dao.updateNotifications(notifications)
     }
 
-    fun updateNotificationsStart(time: LocalTime) {
+    suspend fun updateNotificationsStart(time: LocalTime) {
         dao.updateNotificationsStart(time.toLong())
     }
 
-    fun updateNotificationsEnd(time: LocalTime) {
+    suspend fun updateNotificationsEnd(time: LocalTime) {
         dao.updateNotificationsEnd(time.toLong())
     }
 }
