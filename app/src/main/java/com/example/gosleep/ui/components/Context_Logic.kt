@@ -48,7 +48,8 @@ fun Context_Logic(screenBackground: androidx.compose.ui.graphics.Color, modifier
                     The virtual sensor, Calendar, reads the users calendar to determine when their first event of the following day is.
                     If they pick up the phone within a certain time period of their first event of the following day, they will be sent a notification 
                     telling them to go to sleep. User preferences, including how much sleep they would like to get, if notifications are turned on, and
-                    how long they need in the morning to get ready are saved in a room database. The last time they picked up the phone is also stored.        
+                    how long they need in the morning to get ready are saved in a room database. The last time they picked up the phone is also stored.  
+                     Event hours are also stored in the database, which are the hours that typically contain your first event for the day.
                 """.trimIndent(),
             modifier
         )

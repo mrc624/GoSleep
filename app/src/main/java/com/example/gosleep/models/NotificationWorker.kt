@@ -36,8 +36,9 @@ class NotificationWorker(
 
             val awake = sensorRepository.isUserAwake()
             val withinHours = calendarRepository.isWithinNotificationHours()
+            val notifs = daoRepository.getNotifications()
 
-            if (awake && withinHours) {
+            if (awake && withinHours && notifs) {
                 val context = applicationContext
 
                 val channel = NotificationChannel(
