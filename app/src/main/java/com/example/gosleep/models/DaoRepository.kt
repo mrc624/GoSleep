@@ -11,6 +11,7 @@ class DaoRepository(private val dao: GoSleepDao) {
     val DEFAULT_TIME_GET_READY: Float = 0.5f
     val DEFAULT_NOTIFICATIONS_START: LocalTime = LocalTime.of(5, 0)
     val DEFAULT_NOTIFICATIONS_END: LocalTime = LocalTime.of(12,0)
+    val DEFAULT_ON_PHONE: Long = 0
 
     fun LocalTime.toLong(): Long = this.toSecondOfDay().toLong()
 
@@ -20,17 +21,24 @@ class DaoRepository(private val dao: GoSleepDao) {
         dao.updateOnPhone(time)
     }
 
-    suspend fun getOnPhone(): Long? {
-        return dao.getOnPhone()
+    suspend fun getOnPhone(): Long {
+        val time = dao.getOnPhone()
+        if (time == null)
+        {
+            updateOnPhone(DEFAULT_ON_PHONE)
+            return DEFAULT_ON_PHONE
+        }
+        else
+        {
+            return time
+        }
     }
 
     suspend fun getSleepHours(): Float {
-        Log.d("DB", "Got sleep")
         val time: Float? = dao.getSleepHours()
         if (time == null)
         {
             updateSleepHours(DEFAULT_SLEEP_HOURS)
-            Log.d("DB", "Got sleep $DEFAULT_SLEEP_HOURS")
             return DEFAULT_SLEEP_HOURS
         }
         else
