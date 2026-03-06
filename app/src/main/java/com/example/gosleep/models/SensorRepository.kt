@@ -34,7 +34,6 @@ class SensorRepository(
         // If either sensor is missing, close flow safely
         if (accelerometer == null || gyroscope == null) {
             close()
-            Log.d("GoSleep: SensorRepository", "Accelerometer or Gyroscope not found")
             return@callbackFlow
         }
 
@@ -66,8 +65,8 @@ class SensorRepository(
                     }
                 }
 
-                val accelTriggered = lastAccel > 1.15f
-                val gyroTriggered = lastGyro > 1.0f
+                val accelTriggered = lastAccel > 1.0f
+                val gyroTriggered = lastGyro > 1.5f
 
                 if (accelTriggered && gyroTriggered) {
                     val now = System.currentTimeMillis()
